@@ -5,6 +5,7 @@ import type { NextPage } from 'next';
 import Image from "next/image";
 import { countries } from 'countries-list';
 import styles from './form.module.css';
+import { requestOtpAction, verifyOtpAction, submitApplicationAction } from '@/app/actions/auth';
 
 const countryOptions = Object.entries(countries)
   .map(([code, data]) => ({
@@ -25,6 +26,7 @@ const EmailVerificationForm: NextPage = () => {
   const [lastName, setLastName] = useState('');
   const [visitedCount, setVisitedCount] = useState('');
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Basic email validation regex
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -35,15 +37,32 @@ const EmailVerificationForm: NextPage = () => {
     visitedCount !== '' &&
     links.length > 0;
 
-  const handleSendCode = () => {
+  const handleSendCode = async () => {
     if (isValidEmail) {
+      setIsLoading(true);
+      const res = await requestOtpAction(email);
+      setIsLoading(false);
+      
+      if (res.error) {
+        alert(res.error);
+        return;
+      }
+      
       setStep('otp');
-      alert('We have sent an OTP to your email.');
     }
   };
 
-  const handleVerifyOtp = () => {
-    // In a real app we'd verify the OTP here
+  const handleVerifyOtp = async () => {
+    setIsLoading(true);
+    const otpString = otp.join('');
+    const res = await verifyOtpAction(email, otpString);
+    setIsLoading(false);
+    
+    if (res.error) {
+      alert(res.error);
+      return;
+    }
+    
     setStep('application');
   };
 
@@ -118,8 +137,8 @@ const EmailVerificationForm: NextPage = () => {
               </div>
             </div>
             <div className={styles.buttonText}>
-              <button onClick={handleVerifyOtp} className={`${styles.button} ${styles.buttonActive}`}>
-                Verify email
+              <button onClick={handleVerifyOtp} disabled={isLoading} className={`${styles.button} ${!isLoading ? styles.buttonActive : ''}`}>
+                {isLoading ? 'Verifying...' : 'Verify email'}
               </button>
               <div className={styles.resendCode} onClick={() => alert('Code resent!')}>
                 Resend code
@@ -260,10 +279,25 @@ const EmailVerificationForm: NextPage = () => {
         </div>
 
         <button
-          className={`${styles.submitAppBtn} ${isAppValid ? styles.submitAppBtnActive : ''}`}
-          disabled={!isAppValid}
-          onClick={() => {
-            alert('This feature will be available at launch. Join waitlist.');
+          className={`${styles.submitAppBtn} ${isAppValid && !isLoading ? styles.submitAppBtnActive : ''}`}
+          disabled={!isAppValid || isLoading}
+          onClick={async () => {
+            setIsLoading(true);
+            const res = await submitApplicationAction(email, {
+              firstName,
+              lastName,
+              country: selectedCountry || '',
+              visitedCount: parseInt(visitedCount) || 0,
+              links
+            });
+            setIsLoading(false);
+            
+            if (res.error) {
+              alert(res.error);
+              return;
+            }
+            
+            alert('Your application has been submitted successfully!');
             // Reset form state to return to home page view
             setStep('email');
             setEmail('');
@@ -275,7 +309,7 @@ const EmailVerificationForm: NextPage = () => {
             setSelectedCountry(null);
           }}
         >
-          Submit
+          {isLoading ? 'Submitting...' : 'Submit'}
         </button>
 
         <div className={styles.appFooterText}>
@@ -309,11 +343,11 @@ const EmailVerificationForm: NextPage = () => {
         </div>
         <div className={styles.buttonText}>
           <button
-            className={`${styles.button} ${isValidEmail ? styles.buttonActive : ''}`}
-            disabled={!isValidEmail}
+            className={`${styles.button} ${isValidEmail && !isLoading ? styles.buttonActive : ''}`}
+            disabled={!isValidEmail || isLoading}
             onClick={handleSendCode}
           >
-            Send code
+            {isLoading ? 'Sending...' : 'Send code'}
           </button>
           <div className={styles.emailLabel2}>
             We&apos;ll verify your email before continuing your application.
