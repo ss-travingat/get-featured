@@ -19,6 +19,7 @@ const EmailVerificationForm: NextPage = () => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [linkInput, setLinkInput] = useState('');
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   
   // Basic email validation regex
@@ -188,8 +189,19 @@ const EmailVerificationForm: NextPage = () => {
           <div className={styles.fieldLabel}>Share links to your travel photos</div>
           <div className={styles.inputRow}>
             <div className={styles.inputWithButtonWrapper}>
-              <input type="text" placeholder="Instagram, Flickr, website, etc." className={styles.textInputNoBorder} />
-              <button className={styles.addLinkBtn}>Add</button>
+              <input 
+                type="text" 
+                placeholder="Instagram, Flickr, website, etc." 
+                className={styles.textInputNoBorder} 
+                value={linkInput}
+                onChange={(e) => setLinkInput(e.target.value)}
+              />
+              <button 
+                className={`${styles.addLinkBtn} ${linkInput.length > 0 ? styles.addLinkBtnActive : ''}`}
+                disabled={linkInput.length === 0}
+              >
+                Add
+              </button>
             </div>
           </div>
         </div>
