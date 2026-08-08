@@ -259,6 +259,16 @@
   width: 100%;
 }
 
+.textInput[type=number]::-webkit-outer-spin-button,
+.textInput[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.textInput[type=number] {
+  -moz-appearance: textfield;
+}
+
 .textInput::placeholder {
   color: #525252;
 }
@@ -362,6 +372,11 @@
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+  transition: transform 0.2s ease;
+}
+
+.selectIconOpen {
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .submitAppBtn {

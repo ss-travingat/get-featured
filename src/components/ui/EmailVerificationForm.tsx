@@ -21,7 +21,7 @@ const EmailVerificationForm: NextPage = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [linkInput, setLinkInput] = useState('');
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  
+
   // Basic email validation regex
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -138,8 +138,8 @@ const EmailVerificationForm: NextPage = () => {
           <div className={styles.fieldLabel}>Where are you from?</div>
           <div className={styles.inputRow}>
             <div className={styles.selectWrapper}>
-              <div 
-                className={styles.selectInput} 
+              <div
+                className={styles.selectInput}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
               >
@@ -152,19 +152,19 @@ const EmailVerificationForm: NextPage = () => {
                   <span style={{ color: '#525252' }}>Select country</span>
                 )}
               </div>
-              <Image 
-                src="/dropdown-icon.svg" 
-                alt="Toggle Dropdown" 
-                width={24} 
-                height={24} 
-                className={styles.selectIcon} 
+              <Image
+                src="/dropdown-icon.svg"
+                alt="Toggle Dropdown"
+                width={24}
+                height={24}
+                className={`${styles.selectIcon} ${isDropdownOpen ? styles.selectIconOpen : ''}`}
               />
 
               {isDropdownOpen && (
                 <div className={styles.dropdownMenu}>
                   {countryOptions.map(country => (
-                    <div 
-                      key={country.code} 
+                    <div
+                      key={country.code}
                       className={`${styles.dropdownItem} ${selectedCountry === country.code ? styles.dropdownItemSelected : ''}`}
                       onClick={() => {
                         setSelectedCountry(country.code);
@@ -184,7 +184,13 @@ const EmailVerificationForm: NextPage = () => {
         <div className={styles.fieldContainer}>
           <div className={styles.fieldLabel}>How many countries have you visited?</div>
           <div className={styles.inputRow}>
-            <input type="number" placeholder="e.g. 10" className={styles.textInput} />
+            <input
+              type="number"
+              placeholder="e.g. 10"
+              className={styles.textInput}
+              min={0}
+              max={195}
+            />
           </div>
         </div>
 
@@ -192,14 +198,14 @@ const EmailVerificationForm: NextPage = () => {
           <div className={styles.fieldLabel}>Share links to your travel photos</div>
           <div className={styles.inputRow}>
             <div className={styles.inputWithButtonWrapper}>
-              <input 
-                type="text" 
-                placeholder="Instagram, Flickr, website, etc." 
-                className={styles.textInputNoBorder} 
+              <input
+                type="text"
+                placeholder="Instagram, Flickr, website, etc."
+                className={styles.textInputNoBorder}
                 value={linkInput}
                 onChange={(e) => setLinkInput(e.target.value)}
               />
-              <button 
+              <button
                 className={`${styles.addLinkBtn} ${linkInput.length > 0 ? styles.addLinkBtnActive : ''}`}
                 disabled={linkInput.length === 0}
               >
@@ -237,7 +243,7 @@ const EmailVerificationForm: NextPage = () => {
           </div>
         </div>
         <div className={styles.buttonText}>
-          <button 
+          <button
             className={`${styles.button} ${isValidEmail ? styles.buttonActive : ''}`}
             disabled={!isValidEmail}
             onClick={handleSendCode}
