@@ -152,10 +152,13 @@ const EmailVerificationForm: NextPage = () => {
                   <span style={{ color: '#525252' }}>Select country</span>
                 )}
               </div>
-              <div className={styles.selectIcon} onClick={() => setIsDropdownOpen(!isDropdownOpen)} style={{ cursor: 'pointer' }}>
-                <div className={styles.selectIconBg} />
-                <div className={styles.selectIconArrow} />
-              </div>
+              <Image 
+                src="/dropdown-icon.svg" 
+                alt="Toggle Dropdown" 
+                width={24} 
+                height={24} 
+                className={styles.selectIcon} 
+              />
 
               {isDropdownOpen && (
                 <div className={styles.dropdownMenu}>
