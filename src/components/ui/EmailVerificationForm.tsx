@@ -3,12 +3,22 @@
 import { useState, useRef } from 'react';
 import type { NextPage } from 'next';
 import Image from "next/image";
+import { countries } from 'countries-list';
 import styles from './form.module.css';
+
+const countryOptions = Object.entries(countries)
+  .map(([code, data]) => ({
+    code,
+    name: data.name,
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name));
 
 const EmailVerificationForm: NextPage = () => {
   const [email, setEmail] = useState('');
   const [step, setStep] = useState<'email' | 'otp' | 'application'>('email');
   const [otp, setOtp] = useState(['', '', '', '']);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   
   // Basic email validation regex
@@ -127,16 +137,42 @@ const EmailVerificationForm: NextPage = () => {
           <div className={styles.fieldLabel}>Where are you from?</div>
           <div className={styles.inputRow}>
             <div className={styles.selectWrapper}>
-              <select required className={styles.selectInput} defaultValue="">
-                <option value="" disabled hidden>Select country</option>
-                <option value="us">United States</option>
-                <option value="uk">United Kingdom</option>
-                <option value="ca">Canada</option>
-              </select>
-              <div className={styles.selectIcon}>
+              <div 
+                className={styles.selectInput} 
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
+              >
+                {selectedCountry ? (
+                  <>
+                    <span className={`fi fi-${selectedCountry.toLowerCase()}`} />
+                    {countryOptions.find(c => c.code === selectedCountry)?.name}
+                  </>
+                ) : (
+                  <span style={{ color: '#525252' }}>Select country</span>
+                )}
+              </div>
+              <div className={styles.selectIcon} onClick={() => setIsDropdownOpen(!isDropdownOpen)} style={{ cursor: 'pointer' }}>
                 <div className={styles.selectIconBg} />
                 <div className={styles.selectIconArrow} />
               </div>
+
+              {isDropdownOpen && (
+                <div className={styles.dropdownMenu}>
+                  {countryOptions.map(country => (
+                    <div 
+                      key={country.code} 
+                      className={`${styles.dropdownItem} ${selectedCountry === country.code ? styles.dropdownItemSelected : ''}`}
+                      onClick={() => {
+                        setSelectedCountry(country.code);
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      <span className={`fi fi-${country.code.toLowerCase()}`} />
+                      {country.name}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
