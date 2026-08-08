@@ -7,7 +7,7 @@ import styles from './form.module.css';
 
 const EmailVerificationForm: NextPage = () => {
   const [email, setEmail] = useState('');
-  const [step, setStep] = useState<'email' | 'otp'>('email');
+  const [step, setStep] = useState<'email' | 'otp' | 'application'>('email');
   const [otp, setOtp] = useState(['', '', '', '']);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   
@@ -18,6 +18,11 @@ const EmailVerificationForm: NextPage = () => {
     if (isValidEmail) {
       setStep('otp');
     }
+  };
+
+  const handleVerifyOtp = () => {
+    // In a real app we'd verify the OTP here
+    setStep('application');
   };
 
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
@@ -87,7 +92,7 @@ const EmailVerificationForm: NextPage = () => {
               </div>
             </div>
             <div className={styles.buttonText}>
-              <button className={`${styles.button} ${styles.buttonActive}`}>
+              <button onClick={handleVerifyOtp} className={`${styles.button} ${styles.buttonActive}`}>
                 Verify email
               </button>
               <div className={styles.resendCode} onClick={() => alert('Code resent!')}>
@@ -95,6 +100,68 @@ const EmailVerificationForm: NextPage = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (step === 'application') {
+    return (
+      <div className={styles.appFormParent}>
+        <div className={styles.fieldContainer}>
+          <div className={styles.fieldLabel}>Full name</div>
+          <div className={styles.inputRow}>
+            <input type="text" placeholder="First name" className={styles.textInput} />
+            <input type="text" placeholder="Last name" className={styles.textInput} />
+          </div>
+        </div>
+
+        <div className={styles.fieldContainer}>
+          <div className={styles.fieldLabel}>Email</div>
+          <div className={styles.inputRow}>
+            <input type="email" value={email} disabled className={styles.textInput} />
+          </div>
+        </div>
+
+        <div className={styles.fieldContainer}>
+          <div className={styles.fieldLabel}>Where are you from?</div>
+          <div className={styles.inputRow}>
+            <div className={styles.selectWrapper}>
+              <select required className={styles.selectInput} defaultValue="">
+                <option value="" disabled hidden>Select country</option>
+                <option value="us">United States</option>
+                <option value="uk">United Kingdom</option>
+                <option value="ca">Canada</option>
+              </select>
+              <div className={styles.selectIcon}>
+                <div className={styles.selectIconBg} />
+                <div className={styles.selectIconArrow} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.fieldContainer}>
+          <div className={styles.fieldLabel}>How many countries have you visited?</div>
+          <div className={styles.inputRow}>
+            <input type="number" placeholder="e.g. 10" className={styles.textInput} />
+          </div>
+        </div>
+
+        <div className={styles.fieldContainer}>
+          <div className={styles.fieldLabel}>Share links to your travel photos</div>
+          <div className={styles.inputRow}>
+            <input type="text" placeholder="Instagram, Flickr, website, etc." className={styles.textInput} />
+            <button className={styles.addLinkBtn}>Add</button>
+          </div>
+        </div>
+
+        <button className={styles.submitAppBtn}>
+          Submit
+        </button>
+
+        <div className={styles.appFooterText}>
+          Applications are reviewed manually. If selected, we&apos;ll email you a private upload link to create your travel profile before launch.
         </div>
       </div>
     );
