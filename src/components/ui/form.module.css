@@ -104,6 +104,12 @@
   border: none;
   cursor: pointer;
   width: 100%;
+  transition: all 0.2s ease;
+}
+
+.buttonActive {
+  background-color: #5A45F9;
+  color: #FFF;
 }
 
 .emailLabel2 {

@@ -1,8 +1,16 @@
+"use client";
+
+import { useState } from 'react';
 import type { NextPage } from 'next';
 import Image from "next/image";
 import styles from './form.module.css';
 
 const EmailVerificationForm: NextPage = () => {
+  const [email, setEmail] = useState('');
+  
+  // Basic email validation regex
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
   return (
     <div className={styles.form}>
       <div className={styles.emailFieldParent}>
@@ -14,11 +22,16 @@ const EmailVerificationForm: NextPage = () => {
               type="email"
               placeholder="e.g. james@email.com"
               className={styles.emailInput}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
         </div>
         <div className={styles.buttonText}>
-          <button className={styles.button}>
+          <button 
+            className={`${styles.button} ${isValidEmail ? styles.buttonActive : ''}`}
+            disabled={!isValidEmail}
+          >
             Send code
           </button>
           <div className={styles.emailLabel2}>
