@@ -28,23 +28,23 @@ export const sendOtpEmail = async (email: string, otp: string) => {
       <style>
         body {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-          background-color: #f5f5f5;
+          background-color: #111111;
           margin: 0;
           padding: 0;
           -webkit-font-smoothing: antialiased;
         }
         .wrapper {
           width: 100%;
-          background-color: #f5f5f5;
+          background-color: #111111;
           padding: 40px 0;
         }
         .container {
           max-width: 520px;
           margin: 0 auto;
-          background-color: #ffffff;
+          background-color: #1a1a1a;
           border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
         }
         .header {
           text-align: center;
@@ -61,21 +61,21 @@ export const sendOtpEmail = async (email: string, otp: string) => {
         .title {
           font-size: 24px;
           font-weight: 600;
-          color: #171717;
+          color: #ffffff;
           margin-bottom: 12px;
           margin-top: 0;
           letter-spacing: -0.02em;
         }
         .text {
           font-size: 15px;
-          color: #525252;
+          color: #a3a3a3;
           line-height: 1.6;
           margin-bottom: 32px;
           margin-top: 0;
         }
         .otp-box {
-          background-color: #fafafa;
-          border: 1px solid #e5e5e5;
+          background-color: #262626;
+          border: 1px solid #404040;
           border-radius: 12px;
           padding: 24px;
           margin-bottom: 32px;
@@ -83,18 +83,18 @@ export const sendOtpEmail = async (email: string, otp: string) => {
         .otp-code {
           font-size: 42px;
           font-weight: 600;
-          color: #171717;
+          color: #ffffff;
           letter-spacing: 12px;
           margin: 0;
           margin-left: 12px; /* Center compensate for letter-spacing */
         }
         .footer {
           padding: 24px 40px;
-          background-color: #fafafa;
+          background-color: #1a1a1a;
           text-align: center;
           font-size: 13px;
-          color: #a3a3a3;
-          border-top: 1px solid #f5f5f5;
+          color: #737373;
+          border-top: 1px solid #262626;
         }
       </style>
     </head>
