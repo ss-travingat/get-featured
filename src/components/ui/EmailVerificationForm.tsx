@@ -201,16 +201,17 @@ const EmailVerificationForm: NextPage = () => {
             <div className={styles.inputWithButtonWrapper}>
               <input
                 type="text"
-                placeholder="Instagram, Flickr, website, etc."
+                placeholder={links.length >= 3 ? "Maximum 3 links reached" : "Instagram, Flickr, website, etc."}
                 className={styles.textInputNoBorder}
                 value={linkInput}
                 onChange={(e) => setLinkInput(e.target.value)}
+                disabled={links.length >= 3}
               />
-              <button 
-                className={`${styles.addLinkBtn} ${linkInput.length > 0 ? styles.addLinkBtnActive : ''}`}
-                disabled={linkInput.length === 0}
+              <button
+                className={`${styles.addLinkBtn} ${linkInput.length > 0 && links.length < 3 ? styles.addLinkBtnActive : ''}`}
+                disabled={linkInput.length === 0 || links.length >= 3}
                 onClick={() => {
-                  if (linkInput.trim()) {
+                  if (linkInput.trim() && links.length < 3) {
                     setLinks([...links, linkInput.trim()]);
                     setLinkInput('');
                   }
@@ -220,16 +221,16 @@ const EmailVerificationForm: NextPage = () => {
               </button>
             </div>
           </div>
-          
+
           {links.map((link, index) => (
             <div key={index} className={styles.addedLinkBadge}>
               <div className={styles.addedLinkText}>{link}</div>
-                <div 
-                  className={styles.addedLinkRemoveBtn} 
-                  onClick={() => setLinks(links.filter((_, i) => i !== index))}
-                >
-                  <Image src="/close.svg" alt="Remove link" width={8} height={8} />
-                </div>
+              <div
+                className={styles.addedLinkRemoveBtn}
+                onClick={() => setLinks(links.filter((_, i) => i !== index))}
+              >
+                <Image src="/close.svg" alt="Remove link" width={8} height={8} />
+              </div>
             </div>
           ))}
         </div>
