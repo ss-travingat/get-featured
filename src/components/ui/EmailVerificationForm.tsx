@@ -38,6 +38,7 @@ const EmailVerificationForm: NextPage = () => {
   const handleSendCode = () => {
     if (isValidEmail) {
       setStep('otp');
+      alert('We have sent an OTP to your email.');
     }
   };
 
@@ -80,6 +81,10 @@ const EmailVerificationForm: NextPage = () => {
     // Move to previous input on backspace if current is empty
     if (e.key === 'Backspace' && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
+    }
+    // Submit OTP on enter
+    if (e.key === 'Enter') {
+      handleVerifyOtp();
     }
   };
 
@@ -125,7 +130,6 @@ const EmailVerificationForm: NextPage = () => {
       </div>
     );
   }
-
   if (step === 'application') {
     return (
       <div className={styles.appFormParent}>
@@ -258,7 +262,18 @@ const EmailVerificationForm: NextPage = () => {
         <button 
           className={`${styles.submitAppBtn} ${isAppValid ? styles.submitAppBtnActive : ''}`}
           disabled={!isAppValid}
-          onClick={() => alert('Application submitted successfully!')}
+          onClick={() => {
+            alert('This feature will be available at launch. Join waitlist.');
+            // Reset form state to return to home page view
+            setStep('email');
+            setEmail('');
+            setOtp(['', '', '', '']);
+            setFirstName('');
+            setLastName('');
+            setVisitedCount('');
+            setLinks([]);
+            setSelectedCountry(null);
+          }}
         >
           Submit
         </button>
@@ -283,6 +298,12 @@ const EmailVerificationForm: NextPage = () => {
               className={styles.emailInput}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && isValidEmail) {
+                  e.preventDefault();
+                  handleSendCode();
+                }
+              }}
             />
           </div>
         </div>
