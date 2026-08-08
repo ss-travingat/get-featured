@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import type { NextPage } from 'next';
 import Image from "next/image";
 import styles from './form.module.css';
@@ -9,6 +9,7 @@ const EmailVerificationForm: NextPage = () => {
   const [email, setEmail] = useState('');
   const [step, setStep] = useState<'email' | 'otp'>('email');
   const [otp, setOtp] = useState(['', '', '', '']);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   
   // Basic email validation regex
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -19,12 +20,41 @@ const EmailVerificationForm: NextPage = () => {
     }
   };
 
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 4);
+    if (pastedData) {
+      const newOtp = [...otp];
+      for (let i = 0; i < pastedData.length; i++) {
+        newOtp[i] = pastedData[i];
+      }
+      setOtp(newOtp);
+      const focusIndex = Math.min(pastedData.length, 3);
+      inputRefs.current[focusIndex]?.focus();
+    }
+  };
+
   const handleOtpChange = (index: number, value: string) => {
-    if (value && !/^\d+$/.test(value)) return;
-    
+    const digits = value.replace(/\D/g, '');
+    if (!digits && value) return; // ignore non-digits
+
     const newOtp = [...otp];
-    newOtp[index] = value;
+    // Take the last character in case they type over an existing digit without selecting it
+    const lastChar = digits.slice(-1);
+    newOtp[index] = lastChar;
     setOtp(newOtp);
+
+    // Auto-focus next input
+    if (lastChar && index < 3) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Move to previous input on backspace if current is empty
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
   };
 
   if (step === 'otp') {
@@ -42,10 +72,15 @@ const EmailVerificationForm: NextPage = () => {
                 {otp.map((digit, index) => (
                   <input
                     key={index}
+                    ref={(el) => {
+                      inputRefs.current[index] = el;
+                    }}
                     type="text"
-                    maxLength={1}
+                    maxLength={2} // Using 2 so overtyping produces a new character
                     value={digit}
                     onChange={(e) => handleOtpChange(index, e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(index, e)}
+                    onPaste={handlePaste}
                     className={styles.otpInput}
                   />
                 ))}
