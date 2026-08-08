@@ -1,19 +1,16 @@
 import nodemailer from 'nodemailer';
-import path from 'path';
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.ethereal.email',
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: process.env.SMTP_SECURE === 'true',
+  service: 'gmail',
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    user: process.env.SMTP_EMAIL,
+    pass: process.env.SMTP_PASSWORD,
   },
 });
 
 export const sendOtpEmail = async (email: string, otp: string) => {
   // If no real SMTP config is provided, we can just log it for development
-  if (!process.env.SMTP_USER) {
+  if (!process.env.SMTP_EMAIL) {
     console.log(`\n========================================================`);
     console.log(`Development Mode OTP for ${email}: ${otp}`);
     console.log(`========================================================\n`);
@@ -126,7 +123,7 @@ export const sendOtpEmail = async (email: string, otp: string) => {
 
   try {
     await transporter.sendMail({
-      from: process.env.SMTP_FROM || '"Travingat" <noreply@travingat.com>',
+      from: `"Travingat" <${process.env.SMTP_EMAIL}>`,
       to: email,
       subject: 'Your Travingat Verification Code',
       text: `Your verification code is: ${otp}. It will expire in 10 minutes.`,
