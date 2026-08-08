@@ -113,7 +113,7 @@ const EmailVerificationForm: NextPage = () => {
         <div className={styles.otpFieldParent}>
           <div className={styles.otpInner}>
             <div className={styles.emailField}>
-              <Image className={styles.icon} width={100} height={100} sizes="100vw" alt="Email Icon" src="/mail-icon.png" />
+              <Image className={styles.icon} width={100} height={100} sizes="100vw" alt="Email Icon" src={`${process.env.NEXT_PUBLIC_LANDING_ASSETS_CDN_BASE}/get-featured/mail-icon.png`} />
               <div className={styles.otpHeader}>
                 <div className={styles.emailLabel}>Verify your email</div>
                 <div className={styles.submittedEmail}>{email}</div>
@@ -186,7 +186,7 @@ const EmailVerificationForm: NextPage = () => {
                 )}
               </div>
               <Image
-                src="/dropdown-icon.svg"
+                src={`${process.env.NEXT_PUBLIC_LANDING_ASSETS_CDN_BASE}/get-featured/dropdown-icon.svg`}
                 alt="Toggle Dropdown"
                 width={24}
                 height={24}
@@ -272,7 +272,7 @@ const EmailVerificationForm: NextPage = () => {
                 className={styles.addedLinkRemoveBtn}
                 onClick={() => setLinks(links.filter((_, i) => i !== index))}
               >
-                <Image src="/close.svg" alt="Remove link" width={8} height={8} />
+                <Image src={`${process.env.NEXT_PUBLIC_LANDING_ASSETS_CDN_BASE}/get-featured/close.svg`} alt="Remove link" width={8} height={8} />
               </div>
             </div>
           ))}
@@ -323,7 +323,7 @@ const EmailVerificationForm: NextPage = () => {
     <div className={styles.form}>
       <div className={styles.emailFieldParent}>
         <div className={styles.emailField}>
-          <Image className={styles.icon} width={100} height={100} sizes="100vw" alt="Email Icon" src="/mail-icon.png" />
+          <Image className={styles.icon} width={100} height={100} sizes="100vw" alt="Email Icon" src={`${process.env.NEXT_PUBLIC_LANDING_ASSETS_CDN_BASE}/get-featured/mail-icon.png`} />
           <div className={styles.emailLabel}>Verify your email to apply</div>
           <div className={styles.emailInputContainer}>
             <input

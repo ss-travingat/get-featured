@@ -105,7 +105,7 @@ export const sendOtpEmail = async (email: string, otp: string) => {
       <div class="wrapper">
         <div class="container">
           <div class="header">
-            <img src="cid:travingatlogo" alt="Travingat" />
+            <img src="${process.env.NEXT_PUBLIC_LANDING_ASSETS_CDN_BASE}/get-featured/travingat-logo.png" alt="Travingat" />
           </div>
           <div class="content">
             <h1 class="title">Verify your email</h1>
@@ -130,14 +130,7 @@ export const sendOtpEmail = async (email: string, otp: string) => {
       to: email,
       subject: 'Your Travingat Verification Code',
       text: `Your verification code is: ${otp}. It will expire in 10 minutes.`,
-      html: htmlContent,
-      attachments: [
-        {
-          filename: 'travingat-logo.png',
-          path: path.join(process.cwd(), 'travingat-logo.png'),
-          cid: 'travingatlogo'
-        }
-      ]
+      html: htmlContent
     });
     console.log(`OTP sent to ${email}`);
   } catch (error) {

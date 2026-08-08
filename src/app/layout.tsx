@@ -1,18 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-
-const interDisplay = localFont({
-  src: "../../public/inter-display/InterVariable.ttf",
-  variable: "--font-inter-display",
-  display: "swap",
-});
-
-const inter = localFont({
-  src: "../../public/Inter/Inter-VariableFont_opsz,wght.ttf",
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,11 +7,35 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  const cdnBase = process.env.NEXT_PUBLIC_LANDING_ASSETS_CDN_BASE;
+  const interDisplayUrl = `${cdnBase}/get-featured/inter-display/InterVariable.ttf`;
+  const interUrl = `${cdnBase}/get-featured/Inter/Inter-VariableFont_opsz,wght.ttf`;
+
   return (
     <html
       lang="en"
-      className={`${interDisplay.variable} ${inter.variable} h-full antialiased`}
+      className="font-inter h-full antialiased"
     >
+      <head>
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            @font-face {
+              font-family: 'Inter Display';
+              src: url('${interDisplayUrl}') format('truetype');
+              font-display: swap;
+            }
+            @font-face {
+              font-family: 'Inter';
+              src: url('${interUrl}') format('truetype');
+              font-display: swap;
+            }
+            :root {
+              --font-inter-display: 'Inter Display', sans-serif;
+              --font-inter: 'Inter', sans-serif;
+            }
+          `
+        }} />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
