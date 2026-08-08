@@ -397,6 +397,11 @@
   transition: all 0.2s ease;
 }
 
+.submitAppBtnActive {
+  background-color: #5A45F9;
+  color: white;
+}
+
 .addedLinkBadge {
   width: 100%;
   padding: 6px 6px 6px 10px;

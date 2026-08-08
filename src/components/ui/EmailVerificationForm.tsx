@@ -21,10 +21,19 @@ const EmailVerificationForm: NextPage = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [linkInput, setLinkInput] = useState('');
   const [links, setLinks] = useState<string[]>([]);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [visitedCount, setVisitedCount] = useState('');
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // Basic email validation regex
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const isAppValid = firstName.trim().length > 0 &&
+                     lastName.trim().length > 0 &&
+                     selectedCountry !== null &&
+                     visitedCount !== '' &&
+                     links.length > 0;
 
   const handleSendCode = () => {
     if (isValidEmail) {
@@ -123,8 +132,8 @@ const EmailVerificationForm: NextPage = () => {
         <div className={styles.fieldContainer}>
           <div className={styles.fieldLabel}>Full name</div>
           <div className={styles.inputRow}>
-            <input type="text" placeholder="First name" className={styles.textInput} />
-            <input type="text" placeholder="Last name" className={styles.textInput} />
+            <input type="text" placeholder="First name" className={styles.textInput} value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+            <input type="text" placeholder="Last name" className={styles.textInput} value={lastName} onChange={(e) => setLastName(e.target.value)} />
           </div>
         </div>
 
@@ -190,7 +199,9 @@ const EmailVerificationForm: NextPage = () => {
               placeholder="e.g. 10"
               className={styles.textInput}
               min={0}
-              max={195}
+              max={countryOptions.length}
+              value={visitedCount}
+              onChange={(e) => setVisitedCount(e.target.value)}
             />
           </div>
         </div>
@@ -205,6 +216,15 @@ const EmailVerificationForm: NextPage = () => {
                 className={styles.textInputNoBorder}
                 value={linkInput}
                 onChange={(e) => setLinkInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (linkInput.trim() && links.length < 3) {
+                      setLinks([...links, linkInput.trim()]);
+                      setLinkInput('');
+                    }
+                  }
+                }}
                 disabled={links.length >= 3}
               />
               <button
@@ -235,7 +255,11 @@ const EmailVerificationForm: NextPage = () => {
           ))}
         </div>
 
-        <button className={styles.submitAppBtn}>
+        <button 
+          className={`${styles.submitAppBtn} ${isAppValid ? styles.submitAppBtnActive : ''}`}
+          disabled={!isAppValid}
+          onClick={() => alert('Application submitted successfully!')}
+        >
           Submit
         </button>
 
