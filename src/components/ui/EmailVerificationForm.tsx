@@ -224,14 +224,12 @@ const EmailVerificationForm: NextPage = () => {
           {links.map((link, index) => (
             <div key={index} className={styles.addedLinkBadge}>
               <div className={styles.addedLinkText}>{link}</div>
-              <div 
-                className={styles.addedLinkRemoveBtn} 
-                onClick={() => setLinks(links.filter((_, i) => i !== index))}
-              >
-                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7 1L1 7M1 1L7 7" stroke="#BDBDBD" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
+                <div 
+                  className={styles.addedLinkRemoveBtn} 
+                  onClick={() => setLinks(links.filter((_, i) => i !== index))}
+                >
+                  <Image src="/close.svg" alt="Remove link" width={8} height={8} />
+                </div>
             </div>
           ))}
         </div>
