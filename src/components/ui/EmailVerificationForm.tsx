@@ -20,6 +20,7 @@ const EmailVerificationForm: NextPage = () => {
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [linkInput, setLinkInput] = useState('');
+  const [links, setLinks] = useState<string[]>([]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // Basic email validation regex
@@ -205,14 +206,34 @@ const EmailVerificationForm: NextPage = () => {
                 value={linkInput}
                 onChange={(e) => setLinkInput(e.target.value)}
               />
-              <button
+              <button 
                 className={`${styles.addLinkBtn} ${linkInput.length > 0 ? styles.addLinkBtnActive : ''}`}
                 disabled={linkInput.length === 0}
+                onClick={() => {
+                  if (linkInput.trim()) {
+                    setLinks([...links, linkInput.trim()]);
+                    setLinkInput('');
+                  }
+                }}
               >
                 Add
               </button>
             </div>
           </div>
+          
+          {links.map((link, index) => (
+            <div key={index} className={styles.addedLinkBadge}>
+              <div className={styles.addedLinkText}>{link}</div>
+              <div 
+                className={styles.addedLinkRemoveBtn} 
+                onClick={() => setLinks(links.filter((_, i) => i !== index))}
+              >
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 1L1 7M1 1L7 7" stroke="#BDBDBD" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          ))}
         </div>
 
         <button className={styles.submitAppBtn}>
