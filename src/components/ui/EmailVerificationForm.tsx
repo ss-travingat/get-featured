@@ -187,8 +187,10 @@ const EmailVerificationForm: NextPage = () => {
         <div className={styles.fieldContainer}>
           <div className={styles.fieldLabel}>Share links to your travel photos</div>
           <div className={styles.inputRow}>
-            <input type="text" placeholder="Instagram, Flickr, website, etc." className={styles.textInput} />
-            <button className={styles.addLinkBtn}>Add</button>
+            <div className={styles.inputWithButtonWrapper}>
+              <input type="text" placeholder="Instagram, Flickr, website, etc." className={styles.textInputNoBorder} />
+              <button className={styles.addLinkBtn}>Add</button>
+            </div>
           </div>
         </div>
 
