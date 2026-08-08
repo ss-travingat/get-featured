@@ -30,10 +30,10 @@ const EmailVerificationForm: NextPage = () => {
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const isAppValid = firstName.trim().length > 0 &&
-                     lastName.trim().length > 0 &&
-                     selectedCountry !== null &&
-                     visitedCount !== '' &&
-                     links.length > 0;
+    lastName.trim().length > 0 &&
+    selectedCountry !== null &&
+    visitedCount !== '' &&
+    links.length > 0;
 
   const handleSendCode = () => {
     if (isValidEmail) {
@@ -259,7 +259,7 @@ const EmailVerificationForm: NextPage = () => {
           ))}
         </div>
 
-        <button 
+        <button
           className={`${styles.submitAppBtn} ${isAppValid ? styles.submitAppBtnActive : ''}`}
           disabled={!isAppValid}
           onClick={() => {
