@@ -242,7 +242,7 @@ const EmailVerificationForm: NextPage = () => {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     e.preventDefault();
-                    if (linkInput.trim() && links.length < 3) {
+                    if (linkInput.trim() && links.length < 3 && !links.includes(linkInput.trim())) {
                       setLinks([...links, linkInput.trim()]);
                       setLinkInput('');
                     }
@@ -251,10 +251,10 @@ const EmailVerificationForm: NextPage = () => {
                 disabled={links.length >= 3}
               />
               <button
-                className={`${styles.addLinkBtn} ${linkInput.length > 0 && links.length < 3 ? styles.addLinkBtnActive : ''}`}
-                disabled={linkInput.length === 0 || links.length >= 3}
+                className={`${styles.addLinkBtn} ${linkInput.length > 0 && links.length < 3 && !links.includes(linkInput.trim()) ? styles.addLinkBtnActive : ''}`}
+                disabled={linkInput.length === 0 || links.length >= 3 || links.includes(linkInput.trim())}
                 onClick={() => {
-                  if (linkInput.trim() && links.length < 3) {
+                  if (linkInput.trim() && links.length < 3 && !links.includes(linkInput.trim())) {
                     setLinks([...links, linkInput.trim()]);
                     setLinkInput('');
                   }
