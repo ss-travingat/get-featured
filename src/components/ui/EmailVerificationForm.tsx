@@ -118,7 +118,7 @@ const EmailVerificationForm: NextPage = () => {
         <div className={styles.otpFieldParent}>
           <div className={styles.otpInner}>
             <div className={styles.emailField}>
-              <Image className={styles.icon} width={100} height={100} sizes="100vw" alt="Email Icon" src={`${process.env.NEXT_PUBLIC_LANDING_ASSETS_CDN_BASE}/get-featured/mail-icon.png`} />
+              <Image className={styles.icon} width={100} height={100} sizes="100vw" alt="Email Icon" src={`${process.env.NEXT_PUBLIC_LANDING_ASSETS_CDN_BASE}/get-featured/mail-icon.webp`} />
               <div className={styles.otpHeader}>
                 <div className={styles.emailLabel}>Verify your email</div>
                 <div className={styles.submittedEmail}>{email}</div>
@@ -358,7 +358,7 @@ const EmailVerificationForm: NextPage = () => {
     <div className={styles.form}>
       <div className={styles.emailFieldParent}>
         <div className={styles.emailField}>
-          <Image className={styles.icon} width={100} height={100} sizes="100vw" alt="Email Icon" src={`${process.env.NEXT_PUBLIC_LANDING_ASSETS_CDN_BASE}/get-featured/mail-icon.png`} />
+          <Image className={styles.icon} width={100} height={100} sizes="100vw" alt="Email Icon" src={`${process.env.NEXT_PUBLIC_LANDING_ASSETS_CDN_BASE}/get-featured/mail-icon.webp`} />
           <div className={styles.emailLabel}>Verify your email to apply</div>
           <div className={styles.emailInputContainer}>
             <input

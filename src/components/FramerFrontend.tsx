@@ -128,7 +128,7 @@ const EmailVerificationForm = () => {
         <div className={"tf-otpFieldParent"}>
           <div className={"tf-otpInner"}>
             <div className={"tf-emailField"}>
-              <img className={"tf-icon"} width={100} height={100} alt="Email Icon" src={`https://cdn.travingat.com/landingpage-assets/get-featured/mail-icon.png`} />
+              <img className={"tf-icon"} width={100} height={100} alt="Email Icon" src={`https://cdn.travingat.com/landingpage-assets/get-featured/mail-icon.webp`} />
               <div className={"tf-otpHeader"}>
                 <div className={"tf-emailLabel"}>Verify your email</div>
                 <div className={"tf-submittedEmail"}>{email}</div>
@@ -377,7 +377,7 @@ const EmailVerificationForm = () => {
     <div className={"tf-form"}>
       <div className={"tf-emailFieldParent"}>
         <div className={"tf-emailField"}>
-          <img className={"tf-icon"} width={100} height={100} alt="Email Icon" src={`https://cdn.travingat.com/landingpage-assets/get-featured/mail-icon.png`} />
+          <img className={"tf-icon"} width={100} height={100} alt="Email Icon" src={`https://cdn.travingat.com/landingpage-assets/get-featured/mail-icon.webp`} />
           <div className={"tf-emailLabel"}>Verify your email to apply</div>
           <div className={"tf-emailInputContainer"}>
             <input
@@ -911,6 +911,16 @@ export default function FramerFrontend() {
 
         .tf-wrapper * {
           box-sizing: border-box;
+        }
+
+        @media (max-width: 1200px) {
+          .tf-icon {
+            display: none;
+          }
+          .tf-emailLabel {
+            font-size: 20px;
+            line-height: 28px;
+          }
         }
       `}} />
       <div style={{ width: '100%', maxWidth: '28rem' }}>
