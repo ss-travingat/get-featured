@@ -293,12 +293,12 @@ const EmailVerificationForm: NextPage = () => {
                 Add
               </button>
             </div>
-            {!isLinkInputValid && (
-              <div style={{width: '100%', color: '#F0526A', fontSize: 12, fontFamily: 'Inter', fontWeight: '400', lineHeight: '16px', wordWrap: 'break-word', marginTop: '4px'}}>
-                Enter a full link, e.g. instagram.com/username or flickr.com/photos/username
-              </div>
-            )}
           </div>
+          {!isLinkInputValid && (
+            <div style={{width: '100%', color: '#F0526A', fontSize: 12, fontFamily: 'Inter', fontWeight: '400', lineHeight: '16px', wordWrap: 'break-word', marginTop: '4px'}}>
+              Enter a full link, e.g. instagram.com/username or flickr.com/photos/username
+            </div>
+          )}
 
           {links.map((link, index) => (
             <div key={index} className={styles.addedLinkBadge}>
