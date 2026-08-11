@@ -305,7 +305,7 @@ const EmailVerificationForm = () => {
             </div>
           </div>
           {!isLinkInputValid && (
-            <div style={{width: '100%', color: '#F0526A', fontSize: 12, fontFamily: 'Inter', fontWeight: '400', lineHeight: '16px', wordWrap: 'break-word', marginTop: '4px'}}>
+            <div style={{width: '100%', color: '#989898', fontSize: '12px', fontFamily: 'Inter', fontWeight: '400', lineHeight: '16px', wordWrap: 'break-word', marginTop: '4px'}}>
               Enter a full link, e.g. instagram.com/username or flickr.com/photos/username
             </div>
           )}
