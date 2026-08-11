@@ -10,7 +10,11 @@ export async function requestOtpAction(email: string) {
     // Check if user exists
     const existingUsers = await db.select().from(users).where(eq(users.email, email)).limit(1);
     if (existingUsers.length > 0) {
-      return { error: 'An account with this email already exists. Please log in.' };
+      const user = existingUsers[0];
+      const isCompleted = user.firstName && user.lastName && user.country && user.visitedCount !== null && user.links && user.links.length > 0;
+      if (isCompleted) {
+        return { error: 'An account with this email already exists. Please log in.' };
+      }
     }
 
     // Generate 4 digit OTP
@@ -49,8 +53,11 @@ export async function verifyOtpAction(email: string, otp: string) {
       return { error: 'OTP has expired. Please request a new one.' };
     }
 
-    // Create user
-    await db.insert(users).values({ email });
+    // Create user if they don't exist yet
+    const existingUsers = await db.select().from(users).where(eq(users.email, email)).limit(1);
+    if (existingUsers.length === 0) {
+      await db.insert(users).values({ email });
+    }
     await db.delete(otps).where(eq(otps.email, email));
     
     return { success: true };
