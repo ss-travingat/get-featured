@@ -235,7 +235,7 @@ const EmailVerificationForm: NextPage = () => {
             <div className={styles.inputWithButtonWrapper}>
               <input
                 type="text"
-                placeholder={links.length >= 3 ? "Maximum 3 links reached" : "Instagram, Flickr, website, etc."}
+                placeholder={links.length >= 3 ? "Maximum 3 links reached" : "e.g. instagram.com/username"}
                 className={styles.textInputNoBorder}
                 value={linkInput}
                 onChange={(e) => setLinkInput(e.target.value)}
