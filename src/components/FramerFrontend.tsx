@@ -15,6 +15,7 @@ const EmailVerificationForm = () => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [countrySearchQuery, setCountrySearchQuery] = useState('');
   const [linkInput, setLinkInput] = useState('');
   const [links, setLinks] = useState<string[]>([]);
   const [firstName, setFirstName] = useState('');
@@ -26,6 +27,10 @@ const EmailVerificationForm = () => {
   const backendUrl = "https://get-featured.vercel.app"
   // Basic email validation regex
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const filteredCountries = countryOptions.filter(c => c.name.toLowerCase().includes(countrySearchQuery.toLowerCase()));
+
+  const isLinkInputValid = linkInput.trim().length === 0 || (linkInput.trim().includes('.') && !linkInput.trim().includes(' '));
 
   const isAppValid = firstName.trim().length > 0 &&
     lastName.trim().length > 0 &&
@@ -181,43 +186,68 @@ const EmailVerificationForm = () => {
           <div className={"tf-fieldLabel"}>Where are you from?</div>
           <div className={"tf-inputRow"}>
             <div className={"tf-selectWrapper"}>
-              <div
-                className={"tf-selectInput"}
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
-              >
-                {selectedCountry ? (
-                  <>
-                    <span className={`fi fi-${selectedCountry.toLowerCase()}`} />
-                    {countryOptions.find(c => c.code === selectedCountry)?.name}
-                  </>
-                ) : (
-                  <span style={{ color: '#525252' }}>Select country</span>
-                )}
-              </div>
-              <img
-                src={`https://cdn.travingat.com/landingpage-assets/get-featured/dropdown-icon.svg`}
-                alt="Toggle Dropdown"
-                width={24}
-                height={24}
-                className={`${"tf-selectIcon"} ${isDropdownOpen ? "tf-selectIconOpen" : ''}`}
-              />
+              {!isDropdownOpen ? (
+                <>
+                  <div
+                    className={"tf-selectInput"}
+                    onClick={() => setIsDropdownOpen(true)}
+                    style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
+                  >
+                    {selectedCountry ? (
+                      <>
+                        <span className={`fi fi-${selectedCountry.toLowerCase()}`} />
+                        {countryOptions.find(c => c.code === selectedCountry)?.name}
+                      </>
+                    ) : (
+                      <span style={{ color: '#525252' }}>Select country</span>
+                    )}
+                  </div>
+                  <img
+                    src={`https://cdn.travingat.com/landingpage-assets/get-featured/dropdown-icon.svg`}
+                    alt="Toggle Dropdown"
+                    width={24}
+                    height={24}
+                    className={`${"tf-selectIcon"} ${isDropdownOpen ? "tf-selectIconOpen" : ''}`}
+                  />
+                </>
+              ) : (
+                <div style={{ width: '100%', paddingLeft: 16, paddingRight: 16, paddingTop: 12, paddingBottom: 12, position: 'relative', background: 'black', borderRadius: 10, outline: '1px #989898 solid', outlineOffset: '-1px', display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{width: 24, height: 24, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19.6 21L13.3 14.7C12.8 15.1 12.225 15.4167 11.575 15.65C10.925 15.8833 10.2333 16 9.5 16C7.68333 16 6.14583 15.3708 4.8875 14.1125C3.62917 12.8542 3 11.3167 3 9.5C3 7.68333 3.62917 6.14583 4.8875 4.8875C6.14583 3.62917 7.68333 3 9.5 3C11.3167 3 12.8542 3.62917 14.1125 4.8875C15.3708 6.14583 16 7.68333 16 9.5C16 10.2333 15.8833 10.925 15.65 11.575C15.4167 12.225 15.1 12.8 14.7 13.3L21 19.6L19.6 21ZM9.5 14C10.75 14 11.8125 13.5625 12.6875 12.6875C13.5625 11.8125 14 10.75 14 9.5C14 8.25 13.5625 7.1875 12.6875 6.3125C11.8125 5.4375 10.75 5 9.5 5C8.25 5 7.1875 5.4375 6.3125 6.3125C5.4375 7.1875 5 8.25 5 9.5C5 10.75 5.4375 11.8125 6.3125 12.6875C7.1875 13.5625 8.25 14 9.5 14Z" fill="#7C7C7C"/>
+                        </svg>
+                    </div>
+                  <div style={{ width: 1, height: 24, background: 'white', opacity: 0.2 }}></div>
+                  <input
+                    autoFocus
+                    type="text"
+                    placeholder="Search country"
+                    value={countrySearchQuery}
+                    onChange={(e) => setCountrySearchQuery(e.target.value)}
+                    style={{ background: 'transparent', border: 'none', outline: 'none', color: 'white', fontSize: 16, fontFamily: 'Inter', fontWeight: '400', lineHeight: '24px', width: '100%' }}
+                  />
+                </div>
+              )}
 
               {isDropdownOpen && (
                 <div className={"tf-dropdownMenu"}>
-                  {countryOptions.map(country => (
+                  {filteredCountries.map(country => (
                     <div
                       key={country.code}
                       className={`${"tf-dropdownItem"} ${selectedCountry === country.code ? "tf-dropdownItemSelected" : ''}`}
                       onClick={() => {
                         setSelectedCountry(country.code);
                         setIsDropdownOpen(false);
+                        setCountrySearchQuery('');
                       }}
                     >
                       <span className={`fi fi-${country.code.toLowerCase()}`} />
                       {country.name}
                     </div>
                   ))}
+                  {filteredCountries.length === 0 && (
+                    <div style={{ padding: '10px 16px', color: '#7C7C7C' }}>No countries found</div>
+                  )}
                 </div>
               )}
             </div>
@@ -252,7 +282,7 @@ const EmailVerificationForm = () => {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     e.preventDefault();
-                    if (linkInput.trim() && links.length < 3 && !links.includes(linkInput.trim())) {
+                    if (linkInput.trim() && isLinkInputValid && links.length < 3 && !links.includes(linkInput.trim())) {
                       setLinks([...links, linkInput.trim()]);
                       setLinkInput('');
                     }
@@ -261,10 +291,10 @@ const EmailVerificationForm = () => {
                 disabled={links.length >= 3}
               />
               <button
-                className={`${"tf-addLinkBtn"} ${linkInput.length > 0 && links.length < 3 && !links.includes(linkInput.trim()) ? "tf-addLinkBtnActive" : ''}`}
-                disabled={linkInput.length === 0 || links.length >= 3 || links.includes(linkInput.trim())}
+                className={`${"tf-addLinkBtn"} ${linkInput.trim().length > 0 && isLinkInputValid && links.length < 3 && !links.includes(linkInput.trim()) ? "tf-addLinkBtnActive" : ''}`}
+                disabled={!isLinkInputValid || linkInput.trim().length === 0 || links.length >= 3 || links.includes(linkInput.trim())}
                 onClick={() => {
-                  if (linkInput.trim() && links.length < 3 && !links.includes(linkInput.trim())) {
+                  if (linkInput.trim() && isLinkInputValid && links.length < 3 && !links.includes(linkInput.trim())) {
                     setLinks([...links, linkInput.trim()]);
                     setLinkInput('');
                   }
@@ -273,6 +303,11 @@ const EmailVerificationForm = () => {
                 Add
               </button>
             </div>
+            {!isLinkInputValid && (
+              <div style={{width: '100%', color: '#F0526A', fontSize: 12, fontFamily: 'Inter', fontWeight: '400', lineHeight: '16px', wordWrap: 'break-word', marginTop: '4px'}}>
+                Enter a full link, e.g. instagram.com/username or flickr.com/photos/username
+              </div>
+            )}
           </div>
 
           {links.map((link, index) => (
