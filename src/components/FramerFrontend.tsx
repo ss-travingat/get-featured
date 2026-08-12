@@ -421,17 +421,12 @@ export default function FramerFrontend() {
       <style dangerouslySetInnerHTML={{
         __html: `
         .tf-form {
-  height: 678px;
   position: relative;
-  border-radius: 20px;
-  background-color: #111;
-  overflow: hidden;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 32px;
   box-sizing: border-box;
   text-align: center;
   font-size: 24px;
@@ -444,7 +439,6 @@ export default function FramerFrontend() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32px;
   box-sizing: border-box;
   gap: 24px;
   max-width: 100%;
@@ -548,11 +542,9 @@ export default function FramerFrontend() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32px;
   box-sizing: border-box;
   gap: 32px;
   max-width: 100%;
-  border-radius: 12px;
 }
 
 .tf-otpInner {
@@ -629,10 +621,6 @@ export default function FramerFrontend() {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 32px;
-  background-color: #111111;
-  overflow: hidden;
-  border-radius: 20px;
   gap: 20px;
   box-sizing: border-box;
 }
@@ -909,20 +897,21 @@ export default function FramerFrontend() {
   background-color: #5A45F9;
 }
 
-        .tf-form *, .tf-appFormParent * {
-          box-sizing: border-box;
-        }
+.tf-form *, .tf-appFormParent * {
+  box-sizing: border-box;
+}
 
-        @media (max-width: 1200px) {
-          .tf-icon {
-            display: none;
-          }
-          .tf-emailLabel {
-            font-size: 20px;
-            line-height: 28px;
-          }
-        }
-      `}} />
+@media (max-width: 1024px) {
+  .tf-icon {
+    display: none;
+  }
+  .tf-emailLabel {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+`}} />
       <EmailVerificationForm />
     </>
   );
