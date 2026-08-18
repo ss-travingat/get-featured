@@ -934,8 +934,6 @@ export default function FramerFrontend() {
 .tf-app-form {
   width: 100%;
   position: relative;
-  border-radius: 20px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
