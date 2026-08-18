@@ -1069,6 +1069,10 @@ export default function FramerFrontend() {
   cursor: pointer;
   transition: all 0.2s ease;
 }
+.tf-app-button.tf-submitAppBtnActive {
+  background-color: #5A45F9;
+  color: white;
+}
 .tf-app-button2 {
   position: relative;
   letter-spacing: -0.01em;
