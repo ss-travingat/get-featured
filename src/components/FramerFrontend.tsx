@@ -128,7 +128,6 @@ const EmailVerificationForm = () => {
         <div className={"tf-otpFieldParent"}>
           <div className={"tf-otpInner"}>
             <div className={"tf-emailField"}>
-              <img className={"tf-icon"} width={100} height={100} alt="Email Icon" src={`https://cdn.travingat.com/landingpage-assets/get-featured/mail-icon.webp`} />
               <div className={"tf-otpHeader"}>
                 <div className={"tf-emailLabel"}>Verify your email</div>
                 <div className={"tf-submittedEmail"}>{email}</div>
@@ -377,23 +376,20 @@ const EmailVerificationForm = () => {
     <div className={"tf-form"}>
       <div className={"tf-emailFieldParent"}>
         <div className={"tf-emailField"}>
-          <img className={"tf-icon"} width={100} height={100} alt="Email Icon" src={`https://cdn.travingat.com/landingpage-assets/get-featured/mail-icon.webp`} />
           <div className={"tf-emailLabel"}>Verify your email to apply</div>
-          <div className={"tf-emailInputContainer"}>
-            <input
-              type="email"
-              placeholder="e.g. james@email.com"
-              className={"tf-emailInput"}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && isValidEmail) {
-                  e.preventDefault();
-                  handleSendCode();
-                }
-              }}
-            />
-          </div>
+          <input
+            type="email"
+            placeholder="e.g. james@email.com"
+            className={"tf-emailInput"}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && isValidEmail) {
+                e.preventDefault();
+                handleSendCode();
+              }
+            }}
+          />
         </div>
         <div className={"tf-buttonText"}>
           <button
@@ -505,6 +501,8 @@ export default function FramerFrontend() {
 }
 
 .tf-button {
+  width: 100%;
+  position: relative;
   align-self: stretch;
   border-radius: 999px;
   background-color: #c0caff;
@@ -512,14 +510,17 @@ export default function FramerFrontend() {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 16px;
-  color: #ECF0FF;
+  padding: 10px 18px;
+  box-sizing: border-box;
+  text-align: left;
+  font-size: 16px;
+  color: #ecf0ff;
+  font-family: Inter, sans-serif;
   font-weight: 500;
   letter-spacing: -0.01em;
-  line-height: 20px;
+  line-height: 24px;
   border: none;
   cursor: pointer;
-  width: 100%;
   transition: all 0.2s ease;
 }
 
