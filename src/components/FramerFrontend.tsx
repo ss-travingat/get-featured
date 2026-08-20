@@ -24,7 +24,7 @@ const EmailVerificationForm = () => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const backendUrl = "https://get-featured.vercel.app"
+  const backendUrl = "https://travingat.com"
   // Basic email validation regex
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -67,7 +67,7 @@ const EmailVerificationForm = () => {
     const resData = await fetch(backendUrl + '/api/auth/verify-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, otp: otpString })
+      body: JSON.stringify({ email, otp: otpString, source: 'Get Featured' })
     });
     const res = await resData.json();
 
@@ -76,6 +76,18 @@ const EmailVerificationForm = () => {
     if (res.error) {
       alert(res.error);
       return;
+    }
+
+    if (res.user) {
+      if (res.user.first_name) setFirstName(res.user.first_name);
+      if (res.user.last_name) setLastName(res.user.last_name);
+      if (res.user.country) setSelectedCountry(res.user.country);
+      if (res.user.visited_count !== null && res.user.visited_count !== undefined) {
+        setVisitedCount(res.user.visited_count.toString());
+      }
+      if (res.user.links && Array.isArray(res.user.links)) {
+        setLinks(res.user.links);
+      }
     }
 
     setStep('application');
@@ -258,9 +270,20 @@ const EmailVerificationForm = () => {
               type="number"
               placeholder="e.g. 10"
               min={0}
-              max={countryOptions.length}
+              max={195}
               value={visitedCount}
-              onChange={(e) => setVisitedCount(e.target.value)}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val === '') {
+                  setVisitedCount('');
+                  return;
+                }
+                const num = parseInt(val);
+                if (!isNaN(num)) {
+                  if (num > 195) setVisitedCount('195');
+                  else setVisitedCount(num.toString());
+                }
+              }}
               style={{ background: 'transparent', border: 'none', outline: 'none', color: 'white', width: '100%', fontFamily: 'Inter', fontSize: '16px' }}
             />
           </div>
@@ -376,7 +399,7 @@ const EmailVerificationForm = () => {
       </div>
     );
   }
-return (
+  return (
     <div className={"tf-form"}>
       <div className={"tf-emailFieldParent"}>
         <div className={"tf-emailField"}>
